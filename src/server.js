@@ -1,6 +1,6 @@
 const Koa = require('koa')
 const { ApolloServer } = require('apollo-server-koa')
-import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core';
+const { ApolloServerPluginLandingPageDisabled } = require('apollo-server-core')
 const bodyParser = require('koa-bodyparser')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
 const connectDB = require('../config/database')
