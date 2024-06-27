@@ -75,6 +75,8 @@ The API is publicly available on Heroku:
 
 [https://woovi-bank-895079575c08.herokuapp.com/graphql](https://woovi-bank-895079575c08.herokuapp.com/graphql)
 
+You can also access the playground by opening the URL on your browser
+
 ### Example Queries and Mutations
 
 #### Create Account
