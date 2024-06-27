@@ -15,7 +15,7 @@ const transactionTypeDefs = gql`
   }
 
   type Mutation {
-    createTransaction(fromAccountId: ID!, toAccountId: ID!, amount: Float!): Transaction
+    createTransaction(fromAccountId: ID!, toAccountId: ID!, amount: Int!): Transaction
   }
 `
 

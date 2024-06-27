@@ -35,11 +35,11 @@ const transactionResolvers = {
         await transaction.save({ session })
 
         // Debit fromAccount
-        fromAccount.balance -= amount;
+        fromAccount.balance -= amount
         await fromAccount.save({ session })
 
         // Credit toAccount
-        toAccount.balance += amount;
+        toAccount.balance += amount
         await toAccount.save({ session })
 
         // Create ledger entries
@@ -63,10 +63,10 @@ const transactionResolvers = {
         await session.commitTransaction()
         session.endSession()
 
-        return transaction;
+        return transaction
       } catch (error) {
         await session.abortTransaction()
-        session.endSession();
+        session.endSession()
         throw new Error(error)
       }
     },
