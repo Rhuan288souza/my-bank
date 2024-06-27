@@ -13,7 +13,11 @@ connectDB()
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 
-const server = new ApolloServer({ schema })
+const server = new ApolloServer({ 
+  schema,
+  introspection: true,
+  playground: true,
+})
 
 async function startServer() {
   await server.start()
