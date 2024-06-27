@@ -1,5 +1,3 @@
-jest.setTimeout(30000)
-
 const request = require('supertest')
 const Koa = require('koa')
 const { ApolloServer } = require('apollo-server-koa')

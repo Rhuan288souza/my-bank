@@ -8,7 +8,7 @@ const accountResolvers = {
   Mutation: {
     createAccount: async (_, { name, balance }) => {
       const account = new Account({ name, balance })
-      return account.save();
+      return account.save()
     },
   },
 }

@@ -23,8 +23,8 @@ const server = new ApolloServer({
 })
 
 async function startServer() {
-  await server.start();
-  server.applyMiddleware({ app });
+  await server.start()
+  server.applyMiddleware({ app })
   app.use(bodyParser())
 
   // Verify routes
@@ -32,7 +32,7 @@ async function startServer() {
     if (ctx.path === '/graphql' || ctx.path === '/') {
       await next()
     } else {
-      ctx.status = 404;
+      ctx.status = 404
       ctx.body = 'Not Found'
     }
   })

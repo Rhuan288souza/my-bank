@@ -1,5 +1,3 @@
-jest.setTimeout(30000)
-
 const request = require('supertest')
 const Koa = require('koa')
 const { ApolloServer } = require('apollo-server-koa')
@@ -8,7 +6,7 @@ const typeDefs = require('../src/schemas')
 const resolvers = require('../src/resolvers')
 const connectDB = require('../config/database')
 
-const app = new Koa();
+const app = new Koa()
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 const server = new ApolloServer({ schema })
 
@@ -96,7 +94,7 @@ test('should create a new transaction and ledger entries', async () => {
         }
       `,
     })
-    .expect(200);
+    .expect(200)
 
   const toAccountResponse = await request(app.callback())
     .post('/graphql')
@@ -112,8 +110,8 @@ test('should create a new transaction and ledger entries', async () => {
     })
     .expect(200)
 
-  expect(fromAccountResponse.body.data.getAccount.balance).toBe(900); // 1000 - 100
-  expect(toAccountResponse.body.data.getAccount.balance).toBe(600); // 500 + 100
+  expect(fromAccountResponse.body.data.getAccount.balance).toBe(900)
+  expect(toAccountResponse.body.data.getAccount.balance).toBe(600)
 
   // Verify Ledger Entries
   const fromLedgerEntriesResponse = await request(app.callback())
