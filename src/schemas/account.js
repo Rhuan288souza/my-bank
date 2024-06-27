@@ -4,7 +4,7 @@ const accountTypeDefs = gql`
   type Account {
     id: ID!
     name: String!
-    balance: Float!
+    balance: Int!
   }
 
   type Query {
@@ -13,7 +13,7 @@ const accountTypeDefs = gql`
   }
 
   type Mutation {
-    createAccount(name: String!, balance: Float!): Account
+    createAccount(name: String!, balance: Int!): Account
   }
 `
 

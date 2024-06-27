@@ -30,7 +30,7 @@ async function startServer() {
   // Verify routes
   app.use(async (ctx, next) => {
     if (ctx.path === '/graphql' || ctx.path === '/') {
-      await next();
+      await next()
     } else {
       ctx.status = 404;
       ctx.body = 'Not Found'

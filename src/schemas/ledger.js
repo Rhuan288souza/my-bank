@@ -5,7 +5,7 @@ const ledgerTypeDefs = gql`
     id: ID!
     accountId: ID!
     transactionId: ID!
-    amount: Float!
+    amount: Int!
     type: String!
     date: String!
   }

@@ -5,7 +5,7 @@ const transactionTypeDefs = gql`
     id: ID!
     fromAccountId: ID!
     toAccountId: ID!
-    amount: Float!
+    amount: Int!
     date: String!
   }
 
