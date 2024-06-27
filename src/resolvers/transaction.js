@@ -1,6 +1,6 @@
-const Transaction = require('../models/transaction');
-const Account = require('../models/account');
-const LedgerEntry = require('../models/ledger');
+const Transaction = require('../models/transaction')
+const Account = require('../models/account')
+const LedgerEntry = require('../models/ledger')
 
 const transactionResolvers = {
   Query: {
@@ -10,19 +10,19 @@ const transactionResolvers = {
   },
   Mutation: {
     createTransaction: async (_, { fromAccountId, toAccountId, amount }) => {
-      const session = await Transaction.startSession();
-      session.startTransaction();
+      const session = await Transaction.startSession()
+      session.startTransaction()
 
       try {
-        const fromAccount = await Account.findById(fromAccountId).session(session);
-        const toAccount = await Account.findById(toAccountId).session(session);
+        const fromAccount = await Account.findById(fromAccountId).session(session)
+        const toAccount = await Account.findById(toAccountId).session(session)
 
         if (!fromAccount || !toAccount) {
-          throw new Error('Account not found');
+          throw new Error('Account not found')
         }
 
         if (fromAccount.balance < amount) {
-          throw new Error('Insufficient funds');
+          throw new Error('Insufficient funds')
         }
 
         // Create transaction
@@ -30,17 +30,17 @@ const transactionResolvers = {
           fromAccountId,
           toAccountId,
           amount,
-        });
+        })
 
-        await transaction.save({ session });
+        await transaction.save({ session })
 
         // Debit fromAccount
         fromAccount.balance -= amount;
-        await fromAccount.save({ session });
+        await fromAccount.save({ session })
 
         // Credit toAccount
         toAccount.balance += amount;
-        await toAccount.save({ session });
+        await toAccount.save({ session })
 
         // Create ledger entries
         const debitEntry = new LedgerEntry({
@@ -48,29 +48,29 @@ const transactionResolvers = {
           transactionId: transaction._id,
           amount: -amount,
           type: 'debit',
-        });
+        })
 
         const creditEntry = new LedgerEntry({
           accountId: toAccountId,
           transactionId: transaction._id,
           amount: amount,
           type: 'credit',
-        });
+        })
 
-        await debitEntry.save({ session });
-        await creditEntry.save({ session });
+        await debitEntry.save({ session })
+        await creditEntry.save({ session })
 
-        await session.commitTransaction();
-        session.endSession();
+        await session.commitTransaction()
+        session.endSession()
 
         return transaction;
       } catch (error) {
-        await session.abortTransaction();
+        await session.abortTransaction()
         session.endSession();
-        throw new Error(error);
+        throw new Error(error)
       }
     },
   },
-};
+}
 
-module.exports = transactionResolvers;
+module.exports = transactionResolvers

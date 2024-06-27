@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "Bank API",
+    "name": "Woovi Bank",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -19,14 +19,9 @@
           "raw": "{\n  \"query\": \"mutation { createAccount(name: \\\"John Doe\\\", balance: 1000) { id name balance } }\"\n}"
         },
         "url": {
-          "raw": "http://localhost:4000/graphql",
-          "protocol": "http",
+          "raw": "{{baseUrl}}",
           "host": [
-            "localhost"
-          ],
-          "port": "4000",
-          "path": [
-            "graphql"
+            "{{baseUrl}}"
           ]
         }
       }
@@ -46,14 +41,9 @@
           "raw": "{\n  \"query\": \"query { getAccounts { id name balance } }\"\n}"
         },
         "url": {
-          "raw": "http://localhost:4000/graphql",
-          "protocol": "http",
+          "raw": "{{baseUrl}}",
           "host": [
-            "localhost"
-          ],
-          "port": "4000",
-          "path": [
-            "graphql"
+            "{{baseUrl}}"
           ]
         }
       }
@@ -70,17 +60,12 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"query\": \"mutation { createTransaction(fromAccountId: \\\"ACCOUNT_ID_1\\\", toAccountId: \\\"ACCOUNT_ID_2\\\", amount: 100) { id fromAccountId toAccountId amount date } }\"\n}"
+          "raw": "{\n  \"query\": \"mutation { createTransaction(fromAccountId: \\\"{{fromAccountId}}\\\", toAccountId: \\\"{{toAccountId}}\\\", amount: 100) { id fromAccountId toAccountId amount date } }\"\n}"
         },
         "url": {
-          "raw": "http://localhost:4000/graphql",
-          "protocol": "http",
+          "raw": "{{baseUrl}}",
           "host": [
-            "localhost"
-          ],
-          "port": "4000",
-          "path": [
-            "graphql"
+            "{{baseUrl}}"
           ]
         }
       }
@@ -100,14 +85,9 @@
           "raw": "{\n  \"query\": \"query { getTransactions { id fromAccountId toAccountId amount date } }\"\n}"
         },
         "url": {
-          "raw": "http://localhost:4000/graphql",
-          "protocol": "http",
+          "raw": "{{baseUrl}}",
           "host": [
-            "localhost"
-          ],
-          "port": "4000",
-          "path": [
-            "graphql"
+            "{{baseUrl}}"
           ]
         }
       }
