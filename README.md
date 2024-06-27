@@ -172,7 +172,7 @@ You will now have access to the predefined requests for the Woovi Bank API, whic
 
 To use the environment:
 
-1. In Postman, ensure the `Woovi Bank API Environment` is selected in the environment dropdown menu in the top right corner.
+1. In Postman, ensure the `Woovi Bank Environment` is selected in the environment dropdown menu in the top right corner.
 2. The requests in the collection will use the `baseUrl`, `fromAccountId`, and `toAccountId` variables defined in the environment.
 
 Make sure to set the values for `fromAccountId` and `toAccountId` variables in the environment after creating the accounts using the `Create Account` request.
