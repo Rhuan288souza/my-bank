@@ -107,12 +107,13 @@ query {
 
 ```graphql
 mutation {
-  createTransaction(fromAccountId: "ACCOUNT_ID_1", toAccountId: "ACCOUNT_ID_2", amount: 100) {
+  createTransaction(fromAccountId: "ACCOUNT_ID_1", toAccountId: "ACCOUNT_ID_2", amount: 100, transactionId: "TRANSACTION_ID") {
     id
     fromAccountId
     toAccountId
     amount
     date
+    transactionID
   }
 }
 ```
