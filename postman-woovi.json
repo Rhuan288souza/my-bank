@@ -50,6 +50,17 @@
     },
     {
       "name": "Create Transaction",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const uuid = require('uuid');",
+              "pm.environment.set('transactionId', uuid.v4());"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [
@@ -60,7 +71,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"query\": \"mutation { createTransaction(fromAccountId: \\\"{{fromAccountId}}\\\", toAccountId: \\\"{{toAccountId}}\\\", amount: 100) { id fromAccountId toAccountId amount date } }\"\n}"
+          "raw": "{\n  \"query\": \"mutation { createTransaction(fromAccountId: \\\"{{fromAccountId}}\\\", toAccountId: \\\"{{toAccountId}}\\\", amount: 100, transactionId: \\\"{{transactionId}}\\\") { id fromAccountId toAccountId amount date transactionId } }\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}",
@@ -82,7 +93,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"query\": \"query { getTransactions { id fromAccountId toAccountId amount date } }\"\n}"
+          "raw": "{\n  \"query\": \"query { getTransactions { id fromAccountId toAccountId amount date transactionId } }\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}",

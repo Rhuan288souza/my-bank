@@ -9,11 +9,18 @@ const transactionResolvers = {
     getLedgerEntries: async (_, { accountId }) => LedgerEntry.find({ accountId }),
   },
   Mutation: {
-    createTransaction: async (_, { fromAccountId, toAccountId, amount }) => {
+    createTransaction: async (_, { fromAccountId, toAccountId, amount, transactionId }) => {
       const session = await Transaction.startSession()
       session.startTransaction()
-
+      
       try {
+        const existingTransaction = await Transaction.findOne({ transactionId }).session(session)
+
+        if (existingTransaction) {
+          await session.endSession()
+          return existingTransaction
+        }
+
         const fromAccount = await Account.findById(fromAccountId).session(session)
         const toAccount = await Account.findById(toAccountId).session(session)
 
@@ -30,6 +37,7 @@ const transactionResolvers = {
           fromAccountId,
           toAccountId,
           amount,
+          transactionId,
         })
 
         await transaction.save({ session })
@@ -48,6 +56,7 @@ const transactionResolvers = {
           transactionId: transaction._id,
           amount: -amount,
           type: 'debit',
+          date: transaction.date,
         })
 
         const creditEntry = new LedgerEntry({
@@ -55,6 +64,7 @@ const transactionResolvers = {
           transactionId: transaction._id,
           amount: amount,
           type: 'credit',
+          date: transaction.date,
         })
 
         await debitEntry.save({ session })
