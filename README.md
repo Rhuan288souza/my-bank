@@ -113,7 +113,7 @@ mutation {
     toAccountId
     amount
     date
-    transactionID
+    transactionId
   }
 }
 ```
