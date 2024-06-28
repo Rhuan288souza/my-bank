@@ -10,9 +10,13 @@ const transactionResolvers = {
   },
   Mutation: {
     createTransaction: async (_, { fromAccountId, toAccountId, amount, transactionId }) => {
+      if (amount <= 0) {
+        throw new Error('Transaction amount must be positive')
+      }
+
       const session = await Transaction.startSession()
       session.startTransaction()
-      
+
       try {
         const existingTransaction = await Transaction.findOne({ transactionId }).session(session)
 

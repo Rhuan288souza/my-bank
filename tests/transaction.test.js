@@ -2,7 +2,7 @@ const request = require('supertest')
 const Koa = require('koa')
 const { ApolloServer } = require('apollo-server-koa')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
-const { v4: uuidv4 } = require('uuid')
+const { v7: uuidv7 } = require('uuid')
 const typeDefs = require('../src/schemas')
 const resolvers = require('../src/resolvers')
 const connectDB = require('../config/database')
@@ -58,7 +58,7 @@ beforeEach(async () => {
 
 test('should create a new transaction and ledger entries', async () => {
   const amount = 100
-  const transactionId = uuidv4()
+  const transactionId = uuidv7()
 
   const response = await request(app.callback())
     .post('/graphql')
@@ -159,7 +159,7 @@ test('should create a new transaction and ledger entries', async () => {
 
 test('should return the existing transaction for duplicate transactionId', async () => {
   const amount = 100
-  const transactionId = uuidv4()
+  const transactionId = uuidv7()
 
   // Create the first transaction
   const firstResponse = await request(app.callback())
@@ -179,6 +179,8 @@ test('should return the existing transaction for duplicate transactionId', async
       `,
     })
     .expect(200)
+    
+  expect(firstResponse.body.data.createTransaction).toBeTruthy()
 
   // Try to create a second transaction with the same transactionId
   const secondResponse = await request(app.callback())
@@ -199,6 +201,7 @@ test('should return the existing transaction for duplicate transactionId', async
     })
     .expect(200)
 
+  expect(secondResponse.body.data.createTransaction).toBeTruthy()
   expect(secondResponse.body.data.createTransaction.id).toBe(firstResponse.body.data.createTransaction.id)
   expect(secondResponse.body.data.createTransaction.transactionId).toBe(transactionId)
 
@@ -233,4 +236,30 @@ test('should return the existing transaction for duplicate transactionId', async
 
   expect(fromAccountResponse.body.data.getAccount.balance).toBe(900)
   expect(toAccountResponse.body.data.getAccount.balance).toBe(600)
+})
+
+test('should not allow creating a transaction with a negative amount', async () => {
+  const amount = -100
+  const transactionId = uuidv7()
+
+  const response = await request(app.callback())
+    .post('/graphql')
+    .send({
+      query: `
+        mutation {
+          createTransaction(fromAccountId: "${fromAccountId}", toAccountId: "${toAccountId}", amount: ${amount}, transactionId: "${transactionId}") {
+            id
+            fromAccountId
+            toAccountId
+            amount
+            date
+            transactionId
+          }
+        }
+      `,
+    })
+
+  expect(response.status).toBe(200)
+  expect(response.body.errors).toBeDefined()
+  expect(response.body.errors[0].message).toBe('Transaction amount must be positive')
 })

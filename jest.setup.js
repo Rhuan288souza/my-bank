@@ -16,7 +16,7 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
-  await wait(1000)
+  await wait(3000)
   await clearDatabase()
   await mongoose.connection.close()
 })

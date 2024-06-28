@@ -7,6 +7,9 @@ const accountResolvers = {
   },
   Mutation: {
     createAccount: async (_, { name, balance }) => {
+      if (balance < 0) {
+        throw new Error('Initial balance must be positive')
+      }
       const account = new Account({ name, balance })
       return account.save()
     },

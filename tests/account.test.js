@@ -64,3 +64,23 @@ test('should get all accounts', async () => {
 
   expect(response.body.data.getAccounts.length).toBeGreaterThan(0)
 })
+
+test('should not allow creating an account with a negative initial balance', async () => {
+  const response = await request(app.callback())
+    .post('/graphql')
+    .send({
+      query: `
+        mutation {
+          createAccount(name: "Invalid Account", balance: -100) {
+            id
+            name
+            balance
+          }
+        }
+      `
+    })
+    .expect(200)
+
+  expect(response.body.errors).toBeDefined()
+  expect(response.body.errors[0].message).toBe('Initial balance must be positive')
+})
